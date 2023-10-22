@@ -6,18 +6,18 @@
 ## Описание набора данных
 Описание набора данных, полученного расширением исходного набора данными сервиса [dadata](dadata.ru), находится в следующих Jupyter Notebooks
 - [Анализ городов по количеству банкоматов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/ATM%20distribution%20by%20city.ipynb)
-- [Анализ корреляции признаков и анализ признака atm_group](/tree/main/data_collection/Feature analysis.ipynb)
-- [Описание данных датасета (исходного и преобразованного)](/tree/main/data_collection/Dataset description.ipynb)
+- [Анализ корреляции признаков и анализ признака atm_group](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/Feature%20analysis.ipynb)
+- [Описание данных датасета (исходного и преобразованного)](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/Dataset%20description.ipynb)
 - [Отображение банкоматов на карте](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/ATM%20on%20map.ipynb)
 
-Код, использованные для расширения исходного набора данных содержится в каталоге [data_collection](/tree/main/data_collection) 
+Код, использованные для расширения исходного набора данных содержится в каталоге [data_collection](https://github.com/SeVlVershinin/atm-project/tree/main/data_collection) 
 
 ## Текущий план работ 
 
 --- **до 22.10.2023** --- 
- - завершить наполнение датасета данными из дадаты (проблемы пустых полей, проблемы адресов в транслитерации) 
+ - ~~завершить наполнение датасета данными из дадаты (проблемы пустых полей, проблемы адресов в транслитерации)~~ 
  - ~~завести аккаунт на github, создать readme.md в соответствии с требования чекпойнта~~
- - выложить на github датасет и код, с помощью которого делали наполнение доп.данными
+ - ~~выложить на github датасет и код, с помощью которого делали наполнение доп.данными~~
  - сообщить куратору, создать общую группу в Telegram
 
 --- **до 31.10.2023** ---  (чекпойнт №1)
