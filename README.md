@@ -5,10 +5,10 @@
 
 ## Описание набора данных
 Описание набора данных, полученного расширением исходного набора данными сервиса [dadata](dadata.ru), находится в следующих Jupyter Notebooks
-- [Анализ городов по количеству банкоматов](/tree/main/data_collection/ATM distribution by city.ipynb)
+- [Анализ городов по количеству банкоматов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/ATM%20distribution%20by%20city.ipynb)
 - [Анализ корреляции признаков и анализ признака atm_group](/tree/main/data_collection/Feature analysis.ipynb)
 - [Описание данных датасета (исходного и преобразованного)](/tree/main/data_collection/Dataset description.ipynb)
-- [Отображение банкоматов на карте](/tree/main/data_collection/ATM on map.ipynb)
+- [Отображение банкоматов на карте](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/ATM%20on%20map.ipynb)
 
 Код, использованные для расширения исходного набора данных содержится в каталоге [data_collection](/tree/main/data_collection) 
 
