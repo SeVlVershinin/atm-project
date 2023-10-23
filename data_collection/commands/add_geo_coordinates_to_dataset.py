@@ -11,13 +11,12 @@ from tqdm import tqdm
 from exceptions import BaseGeodataGettingException
 
 
-def _get_additional_geo_data_by_fias_ids(fias_ids: set[str]) -> dict:
-    dadata_client = Dadata(DADATA_API_KEY, DADATA_SECRET_KEY)
+def _get_additional_geo_data_by_fias_ids(fias_ids: set[str], client: Dadata) -> dict:
     out = {}
     for fias_id in tqdm(fias_ids):
         if not fias_id:
             continue
-        result = dadata_client.find_by_id("address", fias_id)
+        result = client.find_by_id("address", fias_id)
         if not result or (geo_data := result[0].get("data")) is None:
             continue
         if not (lat := geo_data["geo_lat"]) or not (lon := geo_data["geo_lon"]):
@@ -76,11 +75,12 @@ if __name__ == "__main__":
     if not dataset:
         raise BaseGeodataGettingException("Failed to get data from csv file")
 
-    areas_geo_data = _get_additional_geo_data_by_fias_ids(areas)
-    cities_geo_data = _get_additional_geo_data_by_fias_ids(cities)
-    regions_geo_data = _get_additional_geo_data_by_fias_ids(regions)
-    streets_geo_data = _get_additional_geo_data_by_fias_ids(streets)
-    settlement_geo_data = _get_additional_geo_data_by_fias_ids(settlements)
+    dadata_client = Dadata(DADATA_API_KEY, DADATA_SECRET_KEY)
+    areas_geo_data = _get_additional_geo_data_by_fias_ids(areas, dadata_client)
+    cities_geo_data = _get_additional_geo_data_by_fias_ids(cities, dadata_client)
+    regions_geo_data = _get_additional_geo_data_by_fias_ids(regions, dadata_client)
+    streets_geo_data = _get_additional_geo_data_by_fias_ids(streets, dadata_client)
+    settlement_geo_data = _get_additional_geo_data_by_fias_ids(settlements, dadata_client)
     today = datetime.today().strftime("%d_%m_%y")
 
     for entry in dataset:
