@@ -60,8 +60,8 @@ if __name__ == "__main__":
 
     out_filename = f"with_houses_{today}_{dataset_path.name}"
     with open(out_filename, "w") as csvfile:
-        field_names_to_write = tuple(dataset[0].keys())
+        field_names_to_write = tuple(dataset_out[0].keys())
         writer = csv.DictWriter(csvfile, fieldnames=field_names_to_write)
         writer.writeheader()
-        for entry in dataset:
+        for entry in dataset_out:
             writer.writerow(entry)

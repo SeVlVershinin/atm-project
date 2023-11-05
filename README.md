@@ -17,6 +17,7 @@
 - [Уточнение геоданных для записей с уровнем ФИАС меньше 8](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/clarify_geo_data_for_fias_level_below_8.py)
 - [Получение информации по ближайшим станциям метро](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_metro_geo_data_for_cities.py)
 - [Получение наименований улиц и номеров домов по кодам ФИАС](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_houses_and_streets_geo_data.py)
+- [Получение численности населения и площадей населенных пунктов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_population_and_area_data_to_dataset.py)
 
 ## Текущий план работ 
 
