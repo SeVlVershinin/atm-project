@@ -9,6 +9,7 @@
 - [Анализ корреляции признаков и анализ признака atm_group](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/feature_analysis.ipynb)
 - [Описание данных датасета (исходного и преобразованного)](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_description.ipynb)
 - [Отображение банкоматов на карте](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/atm_on_map.ipynb)
+- [Получение точек интереса из дампа OSM](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_extension_with_poi_from_osm.ipynb)
 
 Код, использованный для расширения исходного набора данных данными, содержится в каталоге [data_collection/commands](https://github.com/SeVlVershinin/atm-project/tree/main/data_collection/commands) и содержит следующие скрипты:
 
