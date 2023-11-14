@@ -22,7 +22,7 @@
 - *с использованием данных сервиса [Geotree.ru](https://geotree.ru/):*
     - [получение численности населения и площадей населенных пунктов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_population_and_area_data_to_dataset.py)
 
-- *с использованием данных Open Street Maps:*
+- *с использованием данных [Open Street Map](https://www.openstreetmap.org):*
     - (проект) [получение точек интереса из дампа OSM](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_extension_with_poi_from_osm.ipynb)
 
 
