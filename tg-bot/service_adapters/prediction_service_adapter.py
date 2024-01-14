@@ -8,7 +8,7 @@ from pydantic import BaseModel
 class AtmData(BaseModel):
     lat: float
     lon: float
-    atm_group: float
+    atm_group: str
 
 
 HEADERS = {'Content-type': 'application/json', 'accept': 'application/json'}
@@ -22,7 +22,7 @@ class PredictionServiceAdapter:
         return atm_data
 
     @staticmethod
-    def get_atm_groups() -> list[float]:
+    def get_atm_groups() -> list[str]:
         response = requests.get(f'{SERVICE_URL}/atm-groups', headers=HEADERS)
         return response.json()
 
@@ -31,12 +31,14 @@ class PredictionServiceAdapter:
 
         response = requests.post(
             f'{SERVICE_URL}/predict-one',
-            data=atm_data.model_dump_json(),
-            headers=HEADERS
+            data=atm_data.model_dump_json().encode('utf8'),
+            headers=HEADERS,
+
         )
         if response.status_code == 200:
             return response.json()
         else:
+            print(f'Prediction service adapter. Error while making request: {response.status_code}, {response.text}')
             return None
 
     @staticmethod
@@ -50,4 +52,5 @@ class PredictionServiceAdapter:
         if response.status_code == 200:
             return response.json()
         else:
+            print(f'Prediction service adapter. Error while making request: {response.status_code}, {response.text}')
             return None

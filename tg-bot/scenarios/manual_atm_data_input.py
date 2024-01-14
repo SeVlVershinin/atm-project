@@ -22,7 +22,7 @@ class States(StatesGroup):
     result_view = State()
 
 
-atm_groups = list(map(str, PredictionServiceAdapter.get_atm_groups()))
+atm_groups = PredictionServiceAdapter.get_atm_groups()
 
 router = Router()
 
@@ -170,7 +170,7 @@ class AtmGroupInputStep:
     @staticmethod
     @router.message(StateFilter(States.atm_group_input), F.text.in_(atm_groups))
     async def input_atm_group(message: types.Message, state: FSMContext):
-        await state.update_data(atm_group=float(message.text))
+        await state.update_data(atm_group=message.text)
         await ResultViewStep.init(message, state)
 
     @staticmethod

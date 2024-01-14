@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 
 router = Router()
 
@@ -20,5 +20,6 @@ async def show_start_message(message: Message, state: FSMContext):
         f'/upload_csv - загрузка CSV-файла с данными о банкоматах и получение файла, дополненного предсказаниями\n'
         f'/model_info - просмотр основной информации об используемой модели предсказания\n'
         f'/send_review - отправка отзыва о работе бота команде разработчиков\n'
-        f'/play - игра в "угадай число"'
+        f'/play - игра в "угадай число"',
+        reply_markup=ReplyKeyboardRemove()
     )

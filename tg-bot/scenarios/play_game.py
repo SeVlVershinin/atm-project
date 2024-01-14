@@ -1,3 +1,5 @@
+import time
+
 from aiogram import Router, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
@@ -23,7 +25,8 @@ async def start_game(message: Message, state: FSMContext):
     guess = (l + r) // 2
     await state.update_data(rng=(l, r, guess))
 
-    await message.answer(f"Загадайте число от {l} до {r}.")
+    await message.answer(f"Загадайте число от {l} до {r}. И через несколько секунд я попробую его отгадать")
+    time.sleep(3)
     await message.answer(
         f"Это число {guess}?",
         reply_markup=get_keyboard()
@@ -70,7 +73,7 @@ def get_keyboard():
             text="Меньше",
             callback_data="lower"),
         InlineKeyboardButton(
-            text="Больше>",
+            text="Больше",
             callback_data="larger"),
     )
     builder.row(
