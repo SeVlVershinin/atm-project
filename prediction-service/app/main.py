@@ -2,11 +2,15 @@ from typing import List
 from fastapi import FastAPI
 
 from app.ml_model import Model
-from app.dto_models import  AtmData
+from app.dto_models import AtmData
+from app.configs import Settings
+from app.data_collection import extend_original_atm_dataset
 
 
 app = FastAPI()
 model = Model()
+
+settings = Settings()
 
 
 @app.get("/atm-groups")
@@ -24,6 +28,15 @@ def predict_one(atm_data: AtmData) -> float:
 @app.post("/predict-many")
 def predict_many(atm_data_list: List[AtmData]) -> List[float]:
     """Предсказывает индекс популярности для нескольких банкоматов"""
+    out = extend_original_atm_dataset(
+        dataset=atm_data_list,
+        dadata_api_key=settings.dadata_api_key,
+        dadata_secret=settings.dadata_secret_key,
+        geo_tree_api_key=settings.geo_tree_secret_key,
+    )
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print(out)
+    # TODO: finalize dataset extending script
     return model.predict(atm_data_list)
 
 
