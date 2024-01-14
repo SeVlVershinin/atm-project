@@ -1,3 +1,4 @@
+import pathlib
 from pprint import pprint
 
 from dadata import Dadata
@@ -12,10 +13,14 @@ from ..schemas import (
     DatasetObjectWithGeoData,
     OriginalGeoData,
     InitialDatasetObject,
+    OSM_TAG_CATEGORIES,
 )
 from ..services import (
+    convert_poi_tag_counts_to_category_counts,
     get_extended_geo_data_from_dadata,
     get_population_stats_by_oktmo_list,
+    get_poi_counts_near_geolocation,
+    load_osm_pbf_to_dataframe,
     merge_initial_dataset_object_with_geo_data,
 )
 
@@ -79,3 +84,40 @@ def extend_initial_dataset_with_geo_data(dataset: list[dict],
         )
 
     return out
+
+
+def extend_dataset_with_pois_data(dataset: list[dict],
+                                  searching_radius: int,
+                                  osm_cache_file_path: pathlib.Path) -> list[dict]:
+    osm_df = load_osm_pbf_to_dataframe(osm_cache_file_path)
+    dataset_out = []
+    for dataset_obj in tqdm(dataset):
+        try:
+            poi_counts = get_poi_counts_near_geolocation(
+                gdf=osm_df,
+                lat=float(dataset_obj["lat"]),
+                long=float(dataset_obj["long"]),
+                searching_radius=searching_radius,
+            )
+            poi_category_counts = convert_poi_tag_counts_to_category_counts(
+                pois_in=poi_counts
+            )
+        except Exception as exc:
+            # TODO: refactor exceptions handling and add logging
+            print(f"Error was occurred during pois searching for id {dataset_obj['id']}, "
+                  f"err_msg: {exc}")
+            poi_category_counts = {}
+
+        if not poi_category_counts:
+            obj_out = {category: None for category in OSM_TAG_CATEGORIES}
+        else:
+            obj_out = {category: 0 for category in OSM_TAG_CATEGORIES}
+
+        obj_out = {
+            **dataset_obj,
+            **obj_out,
+            **poi_category_counts,
+        }
+        dataset_out.append(obj_out)
+
+    return dataset_out

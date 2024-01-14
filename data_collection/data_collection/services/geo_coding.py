@@ -154,6 +154,8 @@ def get_extended_geo_data_from_dadata(
         "city_area": geolocation.city_area,
         "city_district": geolocation.city_district_with_type,
         "metro": distance_to_metro,
+        "federal_district": geolocation.federal_district,
+        "region_with_type": geolocation.region_with_type,
     })
 
     return ExtendedGeoDataExecutionResult.model_validate({
