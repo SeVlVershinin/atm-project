@@ -10,17 +10,11 @@
 - [Анализ городов по количеству банкоматов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/atm_distribution_by_city.ipynb)
 - [Анализ корреляции признаков и анализ признака atm_group](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/feature_analysis.ipynb)
 
-Код, использованный для расширения исходного набора данных данными, содержится в каталоге [data_collection/commands](https://github.com/SeVlVershinin/atm-project/tree/main/data_collection/commands) и содержит следующие скрипты:
+Код, использованный для расширения исходного набора данных данными, содержится в каталоге [data_collection](https://github.com/SeVlVershinin/atm-project/tree/main/data_collection) и содержит следующие скрипты:
 
-- *с использованием данных сервиса [dadata](dadata.ru):*
-    - [получение дополнительных геоданных по координатам банкоматов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/get_dataset_with_additional_geodata.py)
-    - [получение координат улиц, районов, городов на основе ФИАС кодов адресов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_geo_coordinates_to_dataset.py)
-    - [уточнение геоданных для записей с уровнем ФИАС меньше 8](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/clarify_geo_data_for_fias_level_below_8.py)
-    - [получение информации по ближайшим станциям метро](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_metro_geo_data_for_cities.py)
-    - [получение наименований улиц и номеров домов по кодам ФИАС](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_houses_and_streets_geo_data.py)
-
-- *с использованием данных сервиса [Geotree.ru](https://geotree.ru/):*
-    - [получение численности населения и площадей населенных пунктов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/add_population_and_area_data_to_dataset.py)
+- [data_collection/extended_geo_data_initial_dataset.py](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/get_dataset_with_additional_geodata.py)
+  - получение дополнительных данных геолокации банкомата при помощи запросов к API сервиса [Dadata](https://dadata.ru/api/)
+  - получение данных о площади и количестве проживающих в населенных пунктах с использованием сервиса [GeoTree](https://geotree.ru/features) 
 
 - *с использованием данных [Open Street Map](https://www.openstreetmap.org):*
     - (проект) [получение точек интереса из дампа OSM](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_extension_with_poi_from_osm.ipynb)
