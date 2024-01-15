@@ -2,7 +2,7 @@ import csv
 import pathlib
 
 from ..schemas import (
-    ExtendedGeoData,
+    FilteredGeoData,
     PopulationStats,
 )
 
@@ -27,11 +27,11 @@ def save_dataset_to_csv(filename: pathlib.Path, dataset: list[dict]) -> None:
 
 def merge_initial_dataset_object_with_geo_data(
         initial_dataset_obj: dict,
-        geolocation: ExtendedGeoData | None,
+        geolocation: FilteredGeoData | None,
         population_stats: PopulationStats | None,
 ) -> dict:
     if geolocation is None:
-        geolocation = ExtendedGeoData()
+        geolocation = FilteredGeoData()
     if population_stats is None:
         population_stats = PopulationStats()
     return {

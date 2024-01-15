@@ -11,6 +11,7 @@ from ..exceptions import (
 )
 from ..schemas import (
     DatasetObjectWithGeoData,
+    FilteredGeoData,
     OriginalGeoData,
     InitialDatasetObject,
     OSM_TAG_CATEGORIES,
@@ -29,6 +30,7 @@ def extend_initial_dataset_with_geo_data(dataset: list[dict],
                                          dadata_client: Dadata,
                                          geo_tree_api_key: str) -> list[dict]:
     # TODO: add docstring
+    dataset = dataset[5000:]
     dataset_out = {}
     geocoding_warnings = []
     oktmo_set = set()
@@ -74,11 +76,13 @@ def extend_initial_dataset_with_geo_data(dataset: list[dict],
     for dataset_item in tqdm(dataset):
         geolocation = dataset_out.get(dataset_item["id"])
         oktmo = geolocation.oktmo if geolocation else None
+        filtered_geolocation = FilteredGeoData.model_validate(geolocation.model_dump()) \
+            if geolocation else None
         population_status = population_out.population_stats.get(oktmo)
         out.append(
             merge_initial_dataset_object_with_geo_data(
                 initial_dataset_obj=dataset_item,
-                geolocation=geolocation,
+                geolocation=filtered_geolocation,
                 population_stats=population_status,
             )
         )

@@ -3,6 +3,7 @@ from .dataset import (
     DatasetObjectWithGeoData,
     ExtendedGeoData,
     ExtendedGeoDataExecutionResult,
+    FilteredGeoData,
     InitialDatasetObject,
     PopulationStats,
     PopulationStatsExecutionResults,

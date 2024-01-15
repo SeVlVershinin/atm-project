@@ -37,6 +37,17 @@ class ExtendedGeoData(OriginalGeoData):
     metro: float | None = Field(default=None)
     federal_district: str | None = Field(default=None)
     region_with_type: str | None = Field(default=None)
+    capital_marker: str | None = Field(default=None)
+
+
+class FilteredGeoData(OriginalGeoData):
+    city: str | None = Field(default=None)
+    city_area: str | None = Field(default=None)
+    city_district: str | None = Field(default=None)
+    metro: float | None = Field(default=None)
+    federal_district: str | None = Field(default=None)
+    region_with_type: str | None = Field(default=None)
+    capital_marker: str | None = Field(default=None)
 
 
 class DatasetObjectWithGeoData(InitialDatasetObject, ExtendedGeoData):
@@ -78,6 +89,7 @@ class DadataResponse(BaseModel):
     address_rus: str | None = Field(default=None)
     federal_district: str | None = Field(default=None)
     region_with_type: str | None = Field(default=None)
+    capital_marker: str | None = Field(default=None)
 
     @field_validator("geo_lat", "geo_lon", mode="before")
     def string_to_float(cls, value):
