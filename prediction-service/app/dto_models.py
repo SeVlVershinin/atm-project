@@ -6,4 +6,4 @@ class AtmData(BaseModel):
     популярности"""
     lat: float
     lon: float
-    atm_group: float
+    atm_group: str
