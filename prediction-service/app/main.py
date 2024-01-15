@@ -3,14 +3,32 @@ from fastapi import FastAPI
 
 from app.predictor.ml_model import Predictor
 from app.dto_models import AtmData
-# from app.configs import Settings
-# from app.data_collection import extend_original_atm_dataset
+from app.configs import Settings
+from app.data_collection import (
+    extend_original_atm_dataset,
+    load_osm_pbf_to_dataframe,
+)
 
 
 app = FastAPI()
 model = Predictor()
 
-# settings = Settings()
+settings = Settings()
+
+app.state.osm_gdf = None
+
+
+@app.on_event("startup")
+def load_data():
+    print("Start loading osm dataframe")
+    osm_gdf = load_osm_pbf_to_dataframe()
+    print("Osm dataframe successfully loaded")
+    app.state.osm_gdf = osm_gdf
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    app.state.osm_gdf = None
 
 
 @app.get("/atm-groups")
@@ -41,4 +59,4 @@ def predict_many(atm_data_list: List[AtmData]) -> List[float]:
 
 
 
-uvicorn.run(app, host="0.0.0.0", port=80)
+# uvicorn.run(app, host="0.0.0.0", port=80)
