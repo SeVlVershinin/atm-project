@@ -17,7 +17,7 @@ class GeoCoordinatesBase(BaseModel):
 
 
 class OriginalDatasetObject(GeoCoordinatesBase):
-    atm_group: float = Field(...)
+    atm_group: str = Field(...)
     address: str | None = Field(default=None)
     address_rus: str | None = Field(default=None)
 

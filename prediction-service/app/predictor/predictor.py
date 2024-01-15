@@ -5,10 +5,19 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import StackingRegressor
 from catboost import CatBoostRegressor
 
+from app.configs import Settings
+from app.data_collection import (
+    extend_original_atm_dataset,
+    load_osm_pbf_to_dataframe,
+)
+
 import numpy as np
 
 from app.dto_models import AtmData
 import pandas as pd
+
+
+settings = Settings()
 
 REQUIRED_FEATURE_LIST = ['atm_group', 'lat', 'long', 'city', 'federal_district', 'region_with_type', 'locality_area',
                          'locality_population', 'sustenance', 'education', 'fuel', 'car_service', 'parking_space',
@@ -29,6 +38,10 @@ class Predictor:
         self._load_components()
 
     def _load_components(self):
+        print("Start loading osm dataframe")
+        self.osm_gdf = load_osm_pbf_to_dataframe()
+        print("Osm dataframe successfully loaded")
+
         with open("app/predictor/Imputer.pickle", "rb") as f:
             self.imputer: SimpleImputer = pickle.load(f)
         with open("app/predictor/Encoder.pickle", "rb") as f:
@@ -39,7 +52,16 @@ class Predictor:
             self.model: StackingRegressor = pickle.load(f)
 
     def predict(self, atm_data_list: list[AtmData]) -> list[float]:
-        df = pd.DataFrame(dict(item) for item in atm_data_list)
+        # df = pd.DataFrame(dict(item) for item in atm_data_list)
+        df = extend_original_atm_dataset(
+            dataset=atm_data_list,
+            dadata_api_key=settings.dadata_api_key,
+            dadata_secret=settings.dadata_secret_key,
+            geo_tree_api_key=settings.geo_tree_secret_key,
+            osm_dataframe=self.osm_gdf,
+            searching_radius=settings.pois_searching_radius,
+        )
+        # print(out)
         df = self.enrich_df(df)
         self.assert_feature_presence_and_order(df)
 
@@ -48,7 +70,8 @@ class Predictor:
 
     def enrich_df(self, df):
         # меняем lon на long, т.к. в датасете оно long
-        df.rename(columns={"lon": "long"}, inplace=True)
+        if "lon" in df.columns:
+            df.rename(columns={"lon": "long"}, inplace=True)
 
         # создаем недостающие столбцы и заполняем их NaN, чтобы потом их заполнил Imputer
         for col in REQUIRED_FEATURE_LIST:
