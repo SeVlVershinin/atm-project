@@ -19,7 +19,7 @@ tags_filter = {
 }
 
 
-def load_osm_pbf_to_dataframe(file_path: Path) -> gpd.GeoDataFrame:
+def load_osm_pbf_to_dataframe(file_path: Path = None) -> gpd.GeoDataFrame:
     # TODO: Temporarily loading only Moscow. Finalize
     # osm = pyrosm.OSM(str(file_path))
     fp = pyrosm.get_data("Moscow")

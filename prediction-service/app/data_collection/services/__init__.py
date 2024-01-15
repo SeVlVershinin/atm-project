@@ -7,6 +7,6 @@ from .pois import (
 from .population_stats import get_population_stats_by_oktmo_list
 from .utils import (
     load_dataset_from_csv,
-    merge_original_atm_dataset_with_geo_data,
+    merge_original_atm_dataset_with_extended_data,
     save_dataset_to_csv,
 )
