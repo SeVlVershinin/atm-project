@@ -8,7 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, BufferedInputFile, ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
 from pydantic import ValidationError
 
-from scenarios.manual_atm_data_input import atm_groups
+from scenarios.manual_atm_data_input import AtmGroupInputStep
 from service_adapters.prediction_service_adapter import AtmData, PredictionServiceAdapter
 from scenarios.scenario_selection import show_start_message
 
@@ -37,7 +37,7 @@ class DataUploadStep:
                  "54.704,56.006,Alfabank\n"
                  "</code>\n"
                  "Для задания банковской группы (atm_group) вы можете использовать следующие значения:\n"
-                 + f"{', '.join(atm_groups)}",
+                 + f"{', '.join(AtmGroupInputStep.get_atm_groups())}",
             reply_markup=ReplyKeyboardRemove()
         )
 
