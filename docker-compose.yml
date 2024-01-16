@@ -17,7 +17,7 @@ services:
   api:
     image: sevlvershinin/atm-project-api
     environment:
-      - DATA_ENRICHMENT_ENABLED=FALSE
+      - DATA_ENRICHMENT_ENABLED=TRUE
     env_file:
       - .env
     networks:
