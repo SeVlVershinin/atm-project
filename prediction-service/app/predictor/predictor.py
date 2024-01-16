@@ -38,9 +38,12 @@ class Predictor:
         self._load_components()
 
     def _load_components(self):
-        print("Start loading osm dataframe")
-        self.osm_gdf = load_osm_pbf_to_dataframe()
-        print("Osm dataframe successfully loaded")
+        if settings.data_enrichment_enabled:
+            print("Start loading osm dataframe")
+            self.osm_gdf = load_osm_pbf_to_dataframe()
+            print("Osm dataframe successfully loaded")
+        else:
+            print("Data enrichment disabled (DATA_ENRICHMENT_ENABLED env variable is set to False)")
 
         with open("app/predictor/Imputer.pickle", "rb") as f:
             self.imputer: SimpleImputer = pickle.load(f)
@@ -52,23 +55,25 @@ class Predictor:
             self.model: StackingRegressor = pickle.load(f)
 
     def predict(self, atm_data_list: list[AtmData]) -> list[float]:
-        # df = pd.DataFrame(dict(item) for item in atm_data_list)
-        df = extend_original_atm_dataset(
-            dataset=atm_data_list,
-            dadata_api_key=settings.dadata_api_key,
-            dadata_secret=settings.dadata_secret_key,
-            geo_tree_api_key=settings.geo_tree_secret_key,
-            osm_dataframe=self.osm_gdf,
-            searching_radius=settings.pois_searching_radius,
-        )
-        # print(out)
-        df = self.enrich_df(df)
+        if settings.data_enrichment_enabled:
+            df = extend_original_atm_dataset(
+                dataset=atm_data_list,
+                dadata_api_key=settings.dadata_api_key,
+                dadata_secret=settings.dadata_secret_key,
+                geo_tree_api_key=settings.geo_tree_secret_key,
+                osm_dataframe=self.osm_gdf,
+                searching_radius=settings.pois_searching_radius,
+            )
+        else:
+            df = pd.DataFrame(dict(item) for item in atm_data_list)
+
+        df = self.adjust_columns(df)
         self.assert_feature_presence_and_order(df)
 
         df = self.preprocess_data(df)
         return self.model.predict(df).tolist()
 
-    def enrich_df(self, df):
+    def adjust_columns(self, df):
         # меняем lon на long, т.к. в датасете оно long
         if "lon" in df.columns:
             df.rename(columns={"lon": "long"}, inplace=True)

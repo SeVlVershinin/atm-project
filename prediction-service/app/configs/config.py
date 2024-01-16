@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     dadata_secret_key: str
     geo_tree_secret_key: str
 
+    data_enrichment_enabled: bool = True
+
     datasets_dir_path: str = "datasets"
     initial_dataset_name: str = "train_initial.csv"
     fixed_dataset_name: str = "train_initial_fixed.csv"
