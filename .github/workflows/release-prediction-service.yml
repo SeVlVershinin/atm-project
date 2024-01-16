@@ -1,7 +1,8 @@
-name: Publish Service Image to Docker Hub
+name: Release prediction-servie
 
 on:
-  workflow_dispatch
+  release:
+    types: [published]
   
 jobs:
   push_to_registry:
