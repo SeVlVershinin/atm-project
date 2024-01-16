@@ -1,30 +1,31 @@
 # Определение популярности геолокации для размещения банкомата (МОВС-2023, годовой проект)
 ## Описание проекта
-В рамках проекта разрабатывается модель, которая по географическим координатам определит оценку индекса популярности банкомата в этой локации. Задача ранее решалась 
-на новогоднем чемпионате по анализу данных [Happy Data Year](https://boosters.pro/championship/rosbank2/overview). Предложенные на чемпионате данные о геопозиции банкоматов и их индексе популярности (целевая переменная) взяты за основу и расширены дополнительной информацией о структуре адреса (населенный пункт, улица и т.п.), полученной с помощью сервиса [dadata](dadata.ru)
+В рамках проекта разрабатывается модель, которая по географическим координатам определит оценку индекса популярности 
+банкомата в этой локации. Задача ранее решалась на новогоднем чемпионате по анализу данных [Happy Data Year](https://boosters.pro/championship/rosbank2/overview). 
+Предложенные на чемпионате данные о геопозиции банкоматов и их индексе популярности (целевая переменная) взяты за 
+основу и расширены дополнительной информацией о структуре адреса (населенный пункт, улица и т.п.), площади населенного 
+пункта и численности его населения, а также о количестве точек интереса (магазинов, остановок, аптек, других банкоматов 
+и т.п.), полученной с помощью сервисов [dadata](dadata.ru), [GeoTree](https://geotree.ru/features), а также из базы данных [Open Street Map](https://www.openstreetmap.org).
 
-## Описание набора данных
-Описание набора данных, полученного расширением исходного набора данными сервиса [dadata](dadata.ru), находится в следующих Jupyter Notebooks:
-- [Описание данных датасета (исходного и преобразованного)](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_description.ipynb)
-- [Отображение банкоматов на карте](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/atm_on_map.ipynb)
-- [Анализ городов по количеству банкоматов](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/atm_distribution_by_city.ipynb)
-- [Анализ корреляции признаков и анализ признака atm_group](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/feature_analysis.ipynb)
+## Текущее результаты работы
+На текущий момент: 
+- разработан конвейер обогащения обучающей выборки и входных данных пользователя дополнительными данными, перечисленными
+выше (пакет [data_collection](data_collection)); 
+- выполнен разведочный анализ обогащенной обучающей выборки ([jupyter notebook](eda/eda.ipynb));
+- проведено обучение, оценка качества и выбор лучшей из различных моделей машинного обучения для решения задачи 
+([jupyter notebook](prediction_model/prediction_model.ipynb));
+- на основе лучшей модели разработан сервис предсказания популярности банкомата (пакет [predicition-service](prediction-service))
+и телеграм-бот для взаимодействия с ним (пакет [tg-bot](tg-bot)); 
+- на базе github actions настроен автоматизированный CD-pipeline, формирующий docker-образы с [сервисом предсказаний](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/) 
+и [телеграм-ботом](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/) и размещающий их на Docker Hub; 
+- экземпляры сервиса предсказаний и телеграм-бота с помощью ```docker compose``` на вирутальной машине в сети Интернет. 
 
-Код, использованный для расширения исходного набора данных данными, содержится в каталоге [data_collection](https://github.com/SeVlVershinin/atm-project/tree/main/data_collection) и содержит следующие скрипты:
+Ссылки: 
+- docker-образы сервиса предсказаний и телеграм-бота: [prediction-service](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/) 
+и [telegram-bot](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/)
+- API сервиса предсказаний: http://94.139.242.35/docs
+- телеграм-бот: [ATM project bot (HSE)](https://t.me/atm_project_bot)
 
-- [data_collection/extended_geo_data_initial_dataset.py](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/commands/get_dataset_with_additional_geodata.py)
-  - получение дополнительных данных геолокации банкомата при помощи запросов к API сервиса [Dadata](https://dadata.ru/api/)
-  - получение данных о площади и количестве проживающих в населенных пунктах с использованием сервиса [GeoTree](https://geotree.ru/features) 
-
-- *с использованием данных [Open Street Map](https://www.openstreetmap.org):*
-    - (проект) [получение точек интереса из дампа OSM](https://github.com/SeVlVershinin/atm-project/blob/main/data_collection/notebooks/dataset_extension_with_poi_from_osm.ipynb)
-
-
-## Текущий план работ 
-
---- **до 31.10.2023** ---  (чекпойнт №1)
- - обсудить с куратором и зафиксировать примерный план работ по проекту
- 
 ## Состав команды
  - Алина Лукманова
  - Антон Зайцев
@@ -32,5 +33,3 @@
 
 Куратор: Елизавета Гаврилова
 
-## Дополнительно
-[Описание процесса разработки](dev_process.md)
