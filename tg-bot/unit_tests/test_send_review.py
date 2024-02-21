@@ -5,7 +5,7 @@ import pytest
 
 import scenarios.play_game
 from scenarios.send_review import start_sending_review, States, process_review
-from tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.helpers import get_fsm_context_and_message_mock
 
 
 @pytest.mark.asyncio

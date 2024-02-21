@@ -1,7 +1,7 @@
 import pytest
 
 from scenarios.process_unknown import process_unknown_message
-from tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.helpers import get_fsm_context_and_message_mock
 
 
 @pytest.mark.asyncio

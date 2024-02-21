@@ -6,8 +6,8 @@ from aiogram.types import ReplyKeyboardRemove, BufferedInputFile
 from scenarios.manual_atm_data_input import AtmGroupInputStep
 from scenarios.upload_csv_with_atm_data import DataUploadStep, States, ResultDownloadStep
 from service_adapters.prediction_service_adapter import PredictionServiceAdapter
-from tests.helpers import get_fsm_context_and_message_mock
-from tests.test_data_helpers import get_atm_groups
+from unit_tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.test_data_helpers import get_atm_groups
 
 
 @pytest.mark.asyncio
@@ -54,7 +54,7 @@ async def test_init_reply_with_correct_answer_and_keyboard():
 
 
 def get_full_filename(filename):
-    return f'tests/test_upload_csv_with_atm_data/{filename}'
+    return f'unit_tests/test_upload_csv_with_atm_data/{filename}'
 
 
 @pytest.mark.asyncio

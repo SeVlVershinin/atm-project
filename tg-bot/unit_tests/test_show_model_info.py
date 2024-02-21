@@ -1,7 +1,7 @@
 import pytest
 
 from scenarios.show_model_info import show_model_info
-from tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.helpers import get_fsm_context_and_message_mock
 
 
 @pytest.mark.asyncio
