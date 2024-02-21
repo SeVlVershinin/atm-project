@@ -3,7 +3,7 @@ import time
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove, BufferedInputFile
+from aiogram.types import Message, BufferedInputFile
 
 from scenarios.scenario_selection import show_start_message
 
@@ -22,8 +22,8 @@ async def show_model_info(message: Message, state: FSMContext):
                     "пока мы используем для предсказаний модель линейной регрессии, реализованной в классе Lasso() "
                     "библиотеки scikit-learn."
                     "\n\n"
-                    "Перед прогнозированием значения индекса популярности банкомата мы дополняем введенные вами данные "
-                    "информацией о составных частях адреса, численности и площади населенного пункта, а также "
+                    "Перед прогнозированием значения индекса популярности банкомата мы дополняем введенные вами "
+                    "данные информацией о составных частях адреса, численности и площади населенного пункта, а также "
                     "числом различных объектов, находящихся поблизости от выбранного вами местоположения."
                     "\n\n"
                     "На изображении выше приведена SHAP-диаграмма, отображающая значимость используемых признаков "

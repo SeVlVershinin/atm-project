@@ -28,7 +28,8 @@ class DataUploadStep:
         await state.clear()
         await state.set_state(States.data_upload)
         await message.answer(
-            text="Отправьте CSV-файл, содержащий необходимые для предсказания индекса популярности данные о банкомате.\n"
+            text="Отправьте CSV-файл, содержащий необходимые для предсказания индекса популярности "
+                 "данные о банкомате.\n"
                  "Пример содержимого файла:\n"
                  "\n"
                  "<code>"

@@ -24,7 +24,7 @@ async def start_sending_review(message: Message, state: FSMContext):
     await state.set_state(States.send_review_state)
 
     await message.answer(
-        f"Пожалуйста, отправьте сообщение с отзывом о работе бота и мы отправим его команде разработки",
+        "Пожалуйста, отправьте сообщение с отзывом о работе бота и мы отправим его команде разработки",
         reply_markup=ReplyKeyboardRemove()
     )
 

@@ -32,7 +32,7 @@ class AtmDataInputStep:
         await state.clear()
         await state.set_state(States.atm_data_input)
         await message.answer(
-            text="Выберите один из предложенных в меню ниже способов определения местоположения банкомата.",
+            "Выберите один из предложенных в меню ниже способов определения местоположения банкомата.",
             reply_markup=ReplyKeyboardMarkup(
                 keyboard=[[KeyboardButton(text=t) for t in ("1. Указать координаты", "2. Указать адрес")]],
                 resize_keyboard=True)
@@ -105,7 +105,7 @@ class AtmAddressInputStep:
     async def process_addr_data_search_results(addr_data, message, state):
         if addr_data is None:
             await message.reply(
-                "К сожалению, нам не удалось найти необходимую информацию  об указанном местоположении."
+                "К сожалению, нам не удалось найти необходимую информацию об указанном местоположении."
                 "Попробуйте ввести более точный адрес или координаты.")
         elif addr_data.qc_geo > 1:
             await message.reply(
@@ -181,11 +181,6 @@ class AtmGroupInputStep:
             await ResultViewStep.init(message, state)
         else:
             await message.reply('Пожалуйста, выберите одну из предложенных групп')
-
-    # @staticmethod
-    # @router.message(StateFilter(States.atm_group_input))
-    # async def incorrect_input(message: types.Message):
-    #     await message.reply('Пожалуйста, выберите одну из предложенных групп')
 
 
 class ResultViewStep:

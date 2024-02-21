@@ -45,13 +45,13 @@ async def change_to_larger(callback: CallbackQuery, state: FSMContext):
 
 async def make_new_guess(callback, state, lower: bool):
     data = await state.get_data()
-    l, r, guess = data['rng']
+    left, right, guess = data['rng']
     if lower:
-        r = guess - 1
+        right = guess - 1
     else:
-        l = guess + 1
-    guess = (l + r) // 2
-    await state.update_data(rng=(l, r, guess))
+        left = guess + 1
+    guess = (left + right) // 2
+    await state.update_data(rng=(left, right, guess))
     await callback.message.edit_text(
         f"Это число {guess}?",
         reply_markup=get_keyboard()
