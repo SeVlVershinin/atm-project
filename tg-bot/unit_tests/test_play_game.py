@@ -4,7 +4,7 @@ import pytest
 
 import scenarios.play_game
 from scenarios.play_game import start_game, change_to_larger, change_to_lower, end_game, States, get_keyboard
-from unit_tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock
 
 
 @pytest.mark.asyncio

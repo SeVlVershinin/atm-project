@@ -5,7 +5,7 @@ from aiogram.types import BufferedInputFile
 
 from scenarios.upload_csv_with_atm_data import DataUploadStep, States
 from service_adapters.prediction_service_adapter import PredictionServiceAdapter
-from unit_tests.helpers import get_fsm_context_and_message_mock, get_call_info
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock, get_call_info
 from unit_tests.test_upload_csv_with_atm_data.test_data_upload_step import get_full_filename
 
 

@@ -4,7 +4,7 @@ import pytest
 
 from scenarios import upload_csv_with_atm_data
 from scenarios.upload_csv_with_atm_data import ResultDownloadStep, DataUploadStep
-from unit_tests.helpers import get_fsm_context_and_message_mock, get_buttons, get_call_info
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock, get_buttons, get_call_info
 
 
 @pytest.mark.asyncio

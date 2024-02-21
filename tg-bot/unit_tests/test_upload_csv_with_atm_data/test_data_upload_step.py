@@ -6,8 +6,8 @@ from aiogram.types import ReplyKeyboardRemove, BufferedInputFile
 from scenarios.manual_atm_data_input import AtmGroupInputStep
 from scenarios.upload_csv_with_atm_data import DataUploadStep, States, ResultDownloadStep
 from service_adapters.prediction_service_adapter import PredictionServiceAdapter
-from unit_tests.helpers import get_fsm_context_and_message_mock
-from unit_tests.test_data_helpers import get_atm_groups
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock
+from unit_tests.data_helpers import get_atm_groups
 
 
 @pytest.mark.asyncio

@@ -1,7 +1,7 @@
 import pytest
 
 from scenarios.scenario_selection import show_start_message
-from unit_tests.helpers import get_fsm_context_and_message_mock
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock
 
 
 @pytest.mark.asyncio

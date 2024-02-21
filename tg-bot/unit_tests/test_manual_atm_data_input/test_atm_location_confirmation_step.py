@@ -3,8 +3,8 @@ from unittest.mock import patch, AsyncMock
 import pytest
 
 from scenarios.manual_atm_data_input import AtmDataInputStep, States, AtmLocationConfirmationStep, AtmGroupInputStep
-from unit_tests.helpers import get_fsm_context_and_message_mock, get_text, get_buttons
-from unit_tests.test_data_helpers import get_address_data
+from unit_tests.mock_helpers import get_fsm_context_and_message_mock, get_text, get_buttons
+from unit_tests.data_helpers import get_address_data
 
 
 @pytest.mark.asyncio
