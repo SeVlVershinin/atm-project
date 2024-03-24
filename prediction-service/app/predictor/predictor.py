@@ -1,23 +1,19 @@
+import math
 import pickle
+
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import StackingRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import StackingRegressor
-from catboost import CatBoostRegressor
 
 from app.configs import Settings
 from app.data_collection import (
     extend_original_atm_dataset,
     load_osm_pbf_to_dataframe,
 )
-
-import numpy as np
-
 from app.dto_models import AtmData
-import pandas as pd
-
-
-settings = Settings()
 
 REQUIRED_FEATURE_LIST = ['atm_group', 'lat', 'long', 'city', 'federal_district', 'region_with_type', 'locality_area',
                          'locality_population', 'sustenance', 'education', 'fuel', 'car_service', 'parking_space',
@@ -31,14 +27,16 @@ REQUIRED_FEATURE_LIST = ['atm_group', 'lat', 'long', 'city', 'federal_district',
                          'sport_store', 'auto_moto_store', 'car_parts_store', 'hobbies_store', 'books_store', 'hotel',
                          'museum']
 
+ATM_GROUPS = ['Rosbank', 'AkBars', 'Alfabank', 'Gazprombank', 'Raiffeisen', 'Rosselkhozbank', 'Uralsib']
+
 
 class Predictor:
-
-    def __init__(self):
+    def __init__(self, settings: Settings):
+        self.__settings = settings
         self._load_components()
 
     def _load_components(self):
-        if settings.data_enrichment_enabled:
+        if self.__settings.data_enrichment_enabled:
             print("Start loading osm dataframe")
             self.osm_gdf = load_osm_pbf_to_dataframe()
             print("Osm dataframe successfully loaded")
@@ -55,25 +53,38 @@ class Predictor:
             self.model: StackingRegressor = pickle.load(f)
 
     def predict(self, atm_data_list: list[AtmData]) -> list[float]:
-        if settings.data_enrichment_enabled:
+        df = self.__enrich_data(atm_data_list)
+
+        df = self.__preprocess_data(df)
+
+        return self.model.predict(df).tolist()
+
+    def enrich(self, atm_data_list: list[AtmData]) -> list[dict]:
+        results = self.__enrich_data(atm_data_list).to_dict('records')
+        for result in results:
+            for key, value in result.items():
+                if (value == np.NaN) or (isinstance(value, float) and math.isnan(value)):
+                    result[key] = None
+        return results
+
+    def __enrich_data(self, atm_data_list: list[AtmData]) -> pd.DataFrame:
+        if self.__settings.data_enrichment_enabled:
             df = extend_original_atm_dataset(
                 dataset=atm_data_list,
-                dadata_api_key=settings.dadata_api_key,
-                dadata_secret=settings.dadata_secret_key,
-                geo_tree_api_key=settings.geo_tree_secret_key,
+                dadata_api_key=self.__settings.dadata_api_key,
+                dadata_secret=self.__settings.dadata_secret_key,
+                geo_tree_api_key=self.__settings.geo_tree_secret_key,
                 osm_dataframe=self.osm_gdf,
-                searching_radius=settings.pois_searching_radius,
+                searching_radius=self.__settings.pois_searching_radius,
             )
         else:
             df = pd.DataFrame(dict(item) for item in atm_data_list)
 
-        df = self.adjust_columns(df)
-        self.assert_feature_presence_and_order(df)
+        df = self.__adjust_columns(df)
+        self.__assert_feature_presence_and_order(df)
+        return df
 
-        df = self.preprocess_data(df)
-        return self.model.predict(df).tolist()
-
-    def adjust_columns(self, df):
+    def __adjust_columns(self, df):
         # меняем lon на long, т.к. в датасете оно long
         if "lon" in df.columns:
             df.rename(columns={"lon": "long"}, inplace=True)
@@ -86,10 +97,10 @@ class Predictor:
         # возвращаем датафрейм, но с тем порядком столбцов, который задан в требованиях
         return df[REQUIRED_FEATURE_LIST]
 
-    def assert_feature_presence_and_order(self, df: pd.DataFrame) -> None:
+    def __assert_feature_presence_and_order(self, df: pd.DataFrame) -> None:
         assert df.columns.tolist() == REQUIRED_FEATURE_LIST
 
-    def preprocess_data(self, df):
+    def __preprocess_data(self, df):
         # заполняем пропуски
         df[df.columns] = self.imputer.transform(df)
 

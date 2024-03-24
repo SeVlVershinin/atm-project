@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     geo_tree_secret_key: str
 
     data_enrichment_enabled: bool = True
+    redis_host: str = "localhost"
+    redis_port: str = "6379"
 
     datasets_dir_path: str = "datasets"
     initial_dataset_name: str = "train_initial.csv"
