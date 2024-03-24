@@ -89,7 +89,7 @@ def predict_csv(file: UploadFile) -> FileResponse:
 
 
 @app.post("/enrich-many")
-@cache(expire=300)
+# @cache(expire=300)
 def enrich_many(atm_data_list: List[AtmData]):
     """Обогащает исходные данные о банкоматах дополнительными параметрами, такими как площадь и
      численность населения, количество школ, остановок, магазинов и т.п. в окрестности и прочее.
