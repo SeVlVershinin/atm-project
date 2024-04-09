@@ -1,8 +1,8 @@
 import json
-from os import getenv
-
 import requests
 from pydantic import BaseModel
+
+from configs.settings import settings
 
 
 class AtmData(BaseModel):
@@ -12,7 +12,6 @@ class AtmData(BaseModel):
 
 
 HEADERS = {'Content-type': 'application/json', 'accept': 'application/json'}
-SERVICE_URL = getenv("ATM_PROJECT_PREDICTION_SERVICE_URL")
 
 
 class PredictionServiceAdapter:
@@ -23,14 +22,14 @@ class PredictionServiceAdapter:
 
     @staticmethod
     def get_atm_groups() -> list[str]:
-        response = requests.get(f'{SERVICE_URL}/atm-groups', headers=HEADERS)
+        response = requests.get(f'{settings.atm_project_prediction_service_url}/atm-groups', headers=HEADERS)
         return response.json()
 
     @staticmethod
     def predict_one(atm_data: AtmData) -> float | None:
 
         response = requests.post(
-            f'{SERVICE_URL}/predict-one',
+            f'{settings.atm_project_prediction_service_url}/predict-one',
             data=atm_data.model_dump_json().encode('utf8'),
             headers=HEADERS,
 
@@ -45,7 +44,7 @@ class PredictionServiceAdapter:
     def predict_many(atm_data_list: list[AtmData]) -> list[float] | None:
 
         response = requests.post(
-            f'{SERVICE_URL}/predict-many',
+            f'{settings.atm_project_prediction_service_url}/predict-many',
             data=json.dumps([atm_data.model_dump() for atm_data in atm_data_list]),
             headers=HEADERS
         )

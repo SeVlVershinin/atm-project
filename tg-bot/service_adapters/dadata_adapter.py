@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-from os import getenv
-
 from dadata import Dadata
-
-token = getenv("DADATA_API_KEY")
+from configs.settings import settings
 
 
 @dataclass
@@ -17,13 +14,13 @@ class AddressData:
 class DadataAdapter:
     @staticmethod
     def get_data_by_address(query: str) -> AddressData | None:
-        dadata = Dadata(token)
+        dadata = Dadata(settings.dadata_api_key)
         res = dadata.suggest("address", query, count=1)
         return DadataAdapter.extract_addr_data(res)
 
     @staticmethod
     def get_data_by_coords(lat: float, lon: float) -> AddressData | None:
-        dadata = Dadata(token)
+        dadata = Dadata(settings.dadata_api_key)
         res = dadata.geolocate(name="address", lat=lat, lon=lon)
         return DadataAdapter.extract_addr_data(res)
 

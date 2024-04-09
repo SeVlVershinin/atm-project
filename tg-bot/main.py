@@ -1,7 +1,6 @@
 import asyncio
 import logging
 import sys
-from os import getenv
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
@@ -15,11 +14,10 @@ from scenarios import (
     play_game,
     process_unknown
 )
+from configs.settings import settings
 
-TOKEN = getenv("ATM_PROJECT_BOT_TOKEN")
 
 dp = Dispatcher()
-
 dp.include_routers(
     scenario_selection.router,
     manual_atm_data_input.router,
@@ -32,7 +30,7 @@ dp.include_routers(
 
 
 async def main() -> None:
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(settings.atm_project_bot_token, parse_mode=ParseMode.HTML)
     await dp.start_polling(bot)
 
 

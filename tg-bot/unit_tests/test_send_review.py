@@ -1,9 +1,9 @@
-from os import getenv
 from unittest.mock import AsyncMock, patch
 
 import pytest
 
 import scenarios.play_game
+from configs.settings import settings
 from scenarios.send_review import start_sending_review, States, process_review
 from unit_tests.mock_helpers import get_fsm_context_and_message_mock
 
@@ -25,6 +25,6 @@ async def test_process_review_forward_review_answers_properly_and_makes_bot_to_s
 
     with patch.object(scenarios.send_review, "show_start_message", new=AsyncMock()):
         await process_review(message, fsm_context)
-        message.forward.assert_awaited_once_with(chat_id=getenv("ATM_PROJECT_TEAM_CHAT_ID"))
+        message.forward.assert_awaited_once_with(chat_id=settings.atm_project_team_chat_id)
         message.answer.assert_awaited_once_with("Благодарим вас за отзыв о работе нашего сервиса")
         scenarios.send_review.show_start_message.assert_awaited_once_with(message, fsm_context)
