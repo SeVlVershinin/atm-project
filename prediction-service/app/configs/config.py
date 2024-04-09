@@ -1,7 +1,11 @@
 from pydantic_settings import BaseSettings
 
+from app.configs.argparser import parser
+
 
 class Settings(BaseSettings):
+    port: int = 80
+
     dadata_api_key: str
     dadata_secret_key: str
     geo_tree_secret_key: str
@@ -20,6 +24,15 @@ class Settings(BaseSettings):
     osm_cache_filename: str = "filtered-russia-06-11.osm.pbf"
 
     pois_searching_radius: int = 150
+
+    def __init__(self, **values):
+        super().__init__(**values)
+        self.update_with_command_line_args()
+
+    def update_with_command_line_args(self):
+        for param_name, param_value in vars(parser.parse_args()).items():
+            if param_value is not None:
+                setattr(self, param_name, param_value)
 
     class Config:
         env_file = "app/.env"
