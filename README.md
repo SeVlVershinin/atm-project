@@ -17,10 +17,10 @@ __Подробное описание продукта приведено на [
 ## Текущие результаты работ:
 На текущий момент: 
 - разработан конвейер обогащения обучающей выборки и входных данных пользователя дополнительными данными, перечисленными
-выше (пакет [data_collection](data_collection)); 
-- выполнен разведочный анализ обогащенной обучающей выборки ([jupyter notebook](eda/eda.ipynb));
+выше (пакет [data_collection](.experiments/data_collection)); 
+- выполнен разведочный анализ обогащенной обучающей выборки ([jupyter notebook](.experiments/eda/eda.ipynb));
 - проведено обучение, оценка качества и выбор лучшей из различных моделей машинного обучения для решения задачи 
-([jupyter notebook](prediction_model/prediction_model.ipynb));
+([jupyter notebook](.experiments/prediction_model/prediction_model.ipynb));
 - на основе лучшей модели разработан сервис предсказания популярности банкомата (пакет [predicition-service](prediction-service))
 и телеграм-бот для взаимодействия с ним (пакет [tg-bot](tg-bot)); 
 - на базе github actions настроен автоматизированный CD-pipeline, формирующий docker-образы с [сервисом предсказаний](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/) 
