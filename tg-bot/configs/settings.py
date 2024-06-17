@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     def __init__(self, **values):
         super().__init__(**values)
-        self.update_with_command_line_args()
+        # self.update_with_command_line_args()
 
     def update_with_command_line_args(self):
         for param_name, param_value in vars(parser.parse_args()).items():
