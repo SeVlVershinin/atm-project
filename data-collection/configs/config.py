@@ -8,7 +8,6 @@ class Settings(BaseSettings):
 
     datasets_dir_path: str = "datasets"
     initial_dataset_name: str = "train_initial.csv"
-    fixed_dataset_name: str = "train_initial_fixed.csv"
     with_geodata_dataset_name: str = "train_with_geo_data.csv"
     extended_with_pois_dataset_name: str = "train_with_pois.csv"
 
