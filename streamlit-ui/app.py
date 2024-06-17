@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from model import open_data, preprocess_data, split_data, load_model_and_predict
 import folium
 from streamlit_folium import st_folium
 
@@ -12,21 +11,24 @@ from pydantic import BaseModel
 HEADERS = {'Content-type': 'application/json', 'accept': 'application/json'}
 first_render = True
 
+
 class AtmData(BaseModel):
     lat: float
     lon: float
     atm_group: str
 
-atms = pd.read_csv('streamlit_demo/data/train.csv')
+
+atms = pd.read_csv('data/train.csv')
+
 
 def process_main_page():
-    #show_main_page()
+    # show_main_page()
     render_page()
-    #process_side_bar_inputs()
+    # process_side_bar_inputs()
 
 
 def show_main_page():
-    image = Image.open('streamlit_demo/data/banks.jpg', width=1000)
+    image = Image.open('data/banks.jpg', width=1000)
 
     st.set_page_config(
         layout="wide",
@@ -63,8 +65,8 @@ def process_side_bar_inputs():
     user_input_df = sidebar_input_features()
 
 
-   # prediction, prediction_probas = load_model_and_predict(user_X_df)
-    #write_prediction(prediction, prediction_probas)
+# prediction, prediction_probas = load_model_and_predict(user_X_df)
+# write_prediction(prediction, prediction_probas)
 
 
 def render_page():
@@ -74,9 +76,9 @@ def render_page():
     )
 
     st.header('Определение индекса популярности банкоматов')
-    #st.subheader('Разведочный анализ данных')
+    # st.subheader('Разведочный анализ данных')
 
-    bank_image = Image.open('streamlit_demo/data/banks.jpg')
+    bank_image = Image.open('data/banks.jpg')
     st.image(
         bank_image,
         width=1000
@@ -103,7 +105,7 @@ def render_tab1():
     st.markdown("""
     ##### EDA
     """)
-    #st.dataframe(clients)
+    # st.dataframe(clients)
     st.markdown("""
     ##### Описание признаков
 
@@ -158,18 +160,18 @@ def render_tab1():
 максимальное значение количества населения выглядит правдоподобно (очевидно, это Москва с ее ~ 12 милионным населением), а вот максимальная площадь в ~3 миллиона кв.км. не очень похожа на площадь города и требует отдельного внимания
         """)
 
-    #image = Image.open('streamlit_demo/data/banks.jpg', width=1000)
+    # image = Image.open('data/banks.jpg', width=1000)
 
-    #st.image('streamlit_demo/data/atm_group.jpg', width=1000)
+    # st.image('data/atm_group.jpg', width=1000)
 
-    st.image('streamlit_demo/data/coords.jpg', width=1000)
+    st.image('data/Coords.jpg', width=1000)
     st.markdown(
         """
         Основные значения широты находятся в окрестности 55, а основные значения долготы в окрестностях 30, 80 и 130, что примерно соответствует расположению основных населенных пунктов на территории РФ
         """
     )
 
-    st.image('streamlit_demo/data/city.jpg', width=1000)
+    st.image('data/City.jpg', width=1000)
 
     st.markdown(
         """
@@ -177,21 +179,19 @@ def render_tab1():
         """
     )
 
-    st.image('streamlit_demo/data/popularity.jpg', width=1000)
+    st.image('data/popularity.jpg', width=1000)
     st.markdown(
         """
         Наибольшей популярностью пользуются банкоматы Росбанка и Альфабанка
         """
     )
 
-    st.image('streamlit_demo/data/map.jpg', width=1500)
+    st.image('data/map.jpg', width=1500)
     st.markdown(
         """
         Чем банкомат находится восточнее или севернее, тем он более привлекателен для пользователей.
         """
     )
-
-
 
 
 def render_tab3():
@@ -202,22 +202,22 @@ def render_tab3():
         """
     )
     atm_group = st.selectbox("Банк", (
-    "Rosbank", "AkBars", "Alfabank", "Gazprombank", "Raiffeisen", "Rosselkhozbank", "Uralsib"))
+        "Rosbank", "AkBars", "Alfabank", "Gazprombank", "Raiffeisen", "Rosselkhozbank", "Uralsib"))
 
     line = st.divider()
     st.caption("Координаты банкомата")
 
-    x_coord = st.number_input("Широта",55.8)
+    x_coord = st.number_input("Широта", 55.8)
     y_coord = st.number_input("Долгота", 37.6)
 
-    #st.caption("Город, улица, номер дома через пробел (Москва Сухонская 11)")
-    #address = st.text_input("Адрес банкомата:")
+    # st.caption("Город, улица, номер дома через пробел (Москва Сухонская 11)")
+    # address = st.text_input("Адрес банкомата:")
 
-    pred = predict_one(AtmData(lat = x_coord, lon = y_coord, atm_group=atm_group))
-    #pred = 1
+    pred = predict_one(AtmData(lat=x_coord, lon=y_coord, atm_group=atm_group))
+    # pred = 1
     st.write("### Отображение на карте")
     st.write(pred)
-    #st.write(f'Индекс популярности= {pred:.4f}')
+    # st.write(f'Индекс популярности= {pred:.4f}')
 
     m = folium.Map(location=[x_coord, y_coord], zoom_start=15)
     folium.Marker(
@@ -226,11 +226,12 @@ def render_tab3():
 
     st_data = st_folium(m, width=1500)
 
+
 def render_tab2():
     st.markdown("""
     ##### EDA после обогащения данных
     """)
-    #st.dataframe(clients)
+    # st.dataframe(clients)
     st.markdown("""
     ##### Описание новых признаков
     - sustenance - общественное питание,
@@ -270,8 +271,7 @@ def render_tab2():
 
     """)
 
-
-    st.image('streamlit_demo/data/points.jpg', width=1000)
+    st.image('data/points.jpg', width=1000)
 
     st.markdown(
         """
@@ -279,13 +279,15 @@ def render_tab2():
         """
     )
 
-    st.image('streamlit_demo/data/corr.jpg', width=1500)
+    st.image('data/corr.jpg', width=1500)
 
     st.markdown(
         """
         Наибольшую корреляцию с целевой переменной имеют поля: магазины косметики, магазины электроники, магазины для хобби.
         """
     )
+
+
 def render_tab4():
     st.markdown(
         """
@@ -294,8 +296,10 @@ def render_tab4():
         """
     )
 
+
 def sidebar_input_features():
-    atm_group = st.sidebar.selectbox("Банк", ("Rosbank", "AkBars", "Alfabank", "Gazprombank", "Raiffeisen", "Rosselkhozbank", "Uralsib"))
+    atm_group = st.sidebar.selectbox("Банк", (
+    "Rosbank", "AkBars", "Alfabank", "Gazprombank", "Raiffeisen", "Rosselkhozbank", "Uralsib"))
 
     line = st.sidebar.divider()
     st.sidebar.caption("Координаты банкомата")
@@ -304,7 +308,6 @@ def sidebar_input_features():
 
     st.sidebar.caption("Город, улица, номер дома через пробел (Москва Сухонская 11)")
     address = st.sidebar.text_input("Адрес банкомата:")
-
 
     data = {
         "x_coord": x_coord,
@@ -316,13 +319,12 @@ def sidebar_input_features():
     st.write("### Предсказание популярности")
     st.write(pred)
 
-    #m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
+    # m = folium.Map(location=[39.949610, -75.150282], zoom_start=16)
     m = folium.Map(location=[60.940995, 112.738319], zoom_start=5)
     m = folium.Map(location=[x_coord, y_coord], zoom_start=10)
     folium.Marker(
-        [x_coord, y_coord], popup=atm_group, tooltip= atm_group
+        [x_coord, y_coord], popup=atm_group, tooltip=atm_group
     ).add_to(m)
-
 
     map = folium.Map(location=[46.940995, 142.738319], zoom_start=3)
 
@@ -337,26 +339,28 @@ def sidebar_input_features():
 
     # call to render Folium map in Streamlit
     st_data = st_folium(m, width=1500)
-    #st.write(map)
+    # st.write(map)
     st.write(x_coord, y_coord)
     return data
 
+
 def predict_one(atm_data: AtmData) -> float | None:
-
     response = requests.post(
-            'http://94.139.242.35/predict-one',
-            data=atm_data.model_dump_json().encode('utf8'),
-            headers=HEADERS,
+        'http://94.139.242.35/predict-one',
+        data=atm_data.model_dump_json().encode('utf8'),
+        headers=HEADERS,
 
-        )
+    )
     if response.status_code == 200:
         return response.json()
     else:
         print(f'Prediction service adapter. Error while making request: {response.status_code}, {response.text}')
         return None
-def calculate_target(x_coord, y_coord, address):
 
+
+def calculate_target(x_coord, y_coord, address):
     return 1
+
 
 if __name__ == "__main__":
     process_main_page()
