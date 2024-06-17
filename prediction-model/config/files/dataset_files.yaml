@@ -1,0 +1,6 @@
+init_dataset: ../data-collection/datasets/train.csv
+loaded_dataset: data/train.csv
+x_train_scaled: data/x_train_sc.npy
+y_train: data/y_train.npy
+x_test_scaled: data/x_test_sc.npy
+y_test: data/y_test.npy

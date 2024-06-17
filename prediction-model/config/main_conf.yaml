@@ -1,0 +1,19 @@
+defaults:
+  - files:
+    - dataset_files
+    - model_files
+  - _self_
+urls:
+  mlflow_url: http://127.0.0.1:5000
+params:
+  catboost:
+    iterations: null
+    learning_rate: null
+    tree_depth: null
+    verbose: False
+
+  lasso:
+    alpha: 1.0
+
+  stacking:
+    verbose: True

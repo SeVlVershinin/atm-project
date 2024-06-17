@@ -1,0 +1,5 @@
+outs:
+- md5: 6804b31e559125fb696d0126be98736b
+  size: 1125032
+  hash: md5
+  path: Model.pickle
