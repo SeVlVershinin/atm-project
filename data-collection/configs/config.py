@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     dadata_secret_key: str
     geo_tree_secret_key: str
 
-    datasets_dir_path: str = "../../data"
+    datasets_dir_path: str = "datasets"
     initial_dataset_name: str = "train_initial.csv"
     with_geodata_dataset_name: str = "train_with_geo_data.csv"
     extended_with_pois_dataset_name: str = "train_with_pois.csv"
