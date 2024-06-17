@@ -1,0 +1,5 @@
+outs:
+- md5: 37cb689b0fe0697f4cb05e5d4b1f252b
+  size: 1744127
+  hash: md5
+  path: train_initial_with_pois.csv
