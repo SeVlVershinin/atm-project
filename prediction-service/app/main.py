@@ -11,6 +11,7 @@ from fastapi import UploadFile
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
+from fastapi.middleware.cors import CORSMiddleware
 from redis import Redis
 from starlette.background import BackgroundTask
 from starlette.responses import FileResponse
@@ -32,7 +33,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/atm-groups")
 @cache(expire=300)

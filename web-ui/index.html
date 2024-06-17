@@ -1,0 +1,160 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:image:alt" content="">
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#fafafa">
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=4a897614-69ea-4a6c-bc3f-f1f237ac2b65&lang=ru_RU"
+            type="text/javascript">
+    </script>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="map"></div>
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    bankGroups = [
+        "Rosbank",
+        "AkBars",
+        "Alfabank",
+        "Gazprombank",
+        "Raiffeisen",
+        "Rosselkhozbank",
+        "Uralsib"
+    ]
+
+    function getPredictions(placemark, coords) {
+        return function () {
+
+            var data = bankGroups.map(function (bankGroup) {
+                return {
+                    "lat": coords[0],
+                    "lon": coords[1],
+                    "atm_group": bankGroup
+                };
+            });
+
+            console.log(data);
+
+            //Выполняем POST-запрос
+            fetch('http://94.139.242.35/predict-many', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var metrics_info = data.map(function (item, index) {
+                        metric = parseFloat(item);
+                        return bankGroups[index] + ": " + metric.toFixed(4) + "<br>";
+                    }).join('');
+
+                    placemark.properties.set('balloonContentHeader',
+                        'Индексы популярности банкоматов:'
+                    )
+                    placemark.properties.set('balloonContentBody',
+                        metrics_info
+                    )
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        };
+    }
+
+    function getPlacemark(coords) {
+
+        placemark = new ymaps.Placemark(coords, {
+            iconContent: "Оценить популярность места",
+            hintContent: "Кликните, чтобы оценить популярность данного места для размещения банкоматов"
+        }, {
+            balloonPanelMaxMapArea: 0,
+            preset: "islands#blueStretchyIcon",
+            openEmptyBalloon: true
+        });
+
+        placemark.events.add('balloonopen', function (e) {
+            placemark.properties.set('balloonContent', "Выполняем прогнозирование...");
+            setTimeout(getPredictions(placemark, coords), 500);
+        });
+
+
+        return placemark
+    }
+
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [55.76, 37.64],
+            zoom: 11,
+            controls: ['zoomControl', 'geolocationControl'],
+            behaviors: ['default'],
+        });
+        var searchControl = new ymaps.control.SearchControl({
+            options: {
+                float: 'right',
+                floatIndex: 100,
+                noPlacemark: true
+            }
+        });
+        myMap.controls.add(searchControl);
+        myMap.events.add('click', function (e) {
+            var coords = e.get('coords');
+            console.log(coords);
+
+            myMap.geoObjects.removeAll()
+            myMap.geoObjects.add(getPlacemark(coords))
+        });
+
+        var hello_placemark = new ymaps.Placemark(myMap.getCenter(), {
+            balloonContentHeader:
+                'Прогнозирование популярности банкоматов',
+            balloonContentBody: '' +
+                '<p>С помощью данного приложения вы можете получить прогноз популярности места ' +
+                'для размещения банкомата.</p><p>Для получения прогноза укажите место на карте и ' +
+                'запустите расчет предсказаний. Результаты будут отображены почти сразу.</p>',
+        });
+        myMap.geoObjects.add(hello_placemark);
+        hello_placemark.balloon.open();
+    }
+</script>
+
+</body>
+
+</html>
