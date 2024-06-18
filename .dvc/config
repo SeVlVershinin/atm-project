@@ -3,3 +3,4 @@
 ['remote "atm-remote"']
     url = gdrive://1OlOPnJNFMDk7b3gCmhInm9WA5L6-tWJu
     gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ../config/service_account_config.json

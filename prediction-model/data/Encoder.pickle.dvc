@@ -1,0 +1,5 @@
+outs:
+- md5: c37e239d2d12100206942b19d4a4b594
+  size: 3675
+  hash: md5
+  path: Encoder.pickle
