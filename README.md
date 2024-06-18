@@ -9,7 +9,9 @@
 ## Продукт
 В ходе выполнения проекта разработан продукт, позволяющий получать прогнозы индексов популярности для банкоматов в заданных точках размещения. Продукт включает в себя: 
 - реализованный с использованием библиотеки FastAPI ML-сервис, который по координатам потенциального места размещения банкомата получает у сторонних сервисов дополнительные характеристики места, после с использованием базе ранее обученной модели выполняет предсказание индекса популярности; 
-- Telegram-бот, предоставляющий пользователю простой интерфейс взаимодействия с сервисом получения прогнозов. 
+- Telegram-бот, предоставляющий пользователю простой интерфейс взаимодействия с сервисом получения прогнозов; 
+- Web-приложение на базе Яндекс.Карт, позволяющее пользователю указать локацию на карте и получить прогноз популярности размещения банкомата в этой локации; 
+- Streamlit-приложение, содержащее описание задачи и демонстрирующее основные возможности продукта.   
 
 __Подробное описание продукта приведено на [отдельной странице](product.md).__
 
@@ -19,22 +21,23 @@ __Подробное описание продукта приведено на [
 - разработан конвейер обогащения обучающей выборки и входных данных пользователя дополнительными данными, перечисленными
 выше (пакет [data_collection](./data-collection/)); 
 - выполнен разведочный анализ обогащенной обучающей выборки ([jupyter notebook](.experiments/eda/eda.ipynb));
-- проведено обучение, оценка качества и выбор лучшей из различных моделей машинного обучения для решения задачи 
-([jupyter notebook](.experiments/prediction_model/prediction_model.ipynb));
+- проведено обучение, оценка качества и выбор лучшей из различных ML-моделей машинного обучения для решения задачи 
+([jupyter notebook](.experiments/prediction_model/ML_models_training.ipynb));
+- проведено обучение и оценка качества нескольких вариаций нейросети для решения задачи 
+([jupyter notebook](.experiments/prediction_model/DL_models_training.ipynb));
+
 - разработан конвейер обучения модели с версионированием данных (DVC) и ведением логов экспериментов в MLFlow ([prediction-model](./prediction-model/))
-- на основе лучшей модели разработан сервис предсказания популярности банкомата (пакет [predicition-service](prediction-service))
-и телеграм-бот для взаимодействия с ним (пакет [tg-bot](tg-bot)); 
-- на базе github actions настроен автоматизированный CD-pipeline, формирующий docker-образы с [сервисом предсказаний](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/) 
-и [телеграм-ботом](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/) и размещающий их на Docker Hub; 
+- на основе лучшей модели разработан сервис предсказания популярности банкомата (пакет [predicition-service](prediction-service)), телеграм-бот и web-приложение для взаимодействия с ним (пакеты [tg-bot](tg-bot) и [web-ui](web-ui)); 
+- на базе github actions настроен автоматизированный CD-pipeline, формирующий docker-образы с [сервисом предсказаний](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/), 
+ [телеграм-ботом](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/) и [web-приложением](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-web-ui/) и размещающий их на Docker Hub; 
 - экземпляры сервиса предсказаний и телеграм-бота с помощью ```docker compose``` на вирутальной машине в сети Интернет. 
 
 Ссылки: 
-- docker-образы сервиса предсказаний и телеграм-бота: [prediction-service](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/) 
-и [telegram-bot](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/)
+- docker-образы сервиса предсказаний, телеграм-бота и web-приложения: [prediction-service](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-api/), [telegram-bot](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-bot/) и  [web-ui](https://hub.docker.com/repository/docker/sevlvershinin/atm-project-web-ui/)
 - API сервиса предсказаний: http://94.139.242.35/docs
 - телеграм-бот: [ATM project bot (HSE)](https://t.me/atm_project_bot)
-- web-приложение: [Прогнозирование популярности банкомата](http://94.139.242.35:9999/)
-- Streamlit-приложение: [https://atm-project-streamlit.onrender.com](https://atm-project-streamlit.onrender.com)
+- web-приложение: [прогнозирование популярности банкомата](http://94.139.242.35:9999/)
+- Streamlit-приложение: [streamlit-приложение](https://atm-project-streamlit.onrender.com)
 
 ## Состав команды
  - Алина Лукманова
