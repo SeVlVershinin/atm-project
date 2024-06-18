@@ -1,0 +1,10 @@
+/Encoder.pickle
+/Imputer.pickle
+/Model.pickle
+/Scaler.pickle
+/train.csv
+/prepared_train.csv
+/x_test_sc.npy
+/x_train_sc.npy
+/y_test.npy
+/y_train.npy

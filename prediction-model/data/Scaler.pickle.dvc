@@ -1,0 +1,5 @@
+outs:
+- md5: be3b232be822398e07c6b9ee9fb8ea15
+  size: 8947
+  hash: md5
+  path: Scaler.pickle

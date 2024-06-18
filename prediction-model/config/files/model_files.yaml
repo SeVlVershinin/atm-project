@@ -1,0 +1,4 @@
+encoder_pickle: data/Encoder.pickle
+imputer_pickle: data/Imputer.pickle
+scaler_pickle: data/Scaler.pickle
+model_pickle: data/Model.pickle
