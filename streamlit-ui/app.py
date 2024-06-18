@@ -86,7 +86,7 @@ def render_page():
         ["EDA",
          "EDA после обогащения",
          "Предсказания",
-         "ОСНОВНЫЕ ВЫВОДЫ"
+         "Основные выводы"
          ])
 
     with tab1:
@@ -197,7 +197,7 @@ def render_tab1():
 def render_tab3():
     st.markdown(
         """
-        #### Предсказание 
+        #### Предсказание индекса популярности
 
         """
     )
@@ -216,7 +216,7 @@ def render_tab3():
     pred = predict_one(AtmData(lat = x_coord, lon = y_coord, atm_group=atm_group))
     #pred = 1
     st.write("### Отображение на карте")
-    st.write(pred)
+    #st.write(pred)
     #st.write(f'Индекс популярности= {pred:.4f}')
 
     m = folium.Map(location=[x_coord, y_coord], zoom_start=15)
@@ -293,6 +293,23 @@ def render_tab4():
 
         """
     )
+    st.markdown(
+        """
+        ##### Эксперименты с ml-моделями 
+
+        """
+    )
+    st.image('streamlit_demo/data/ml-models.jpg', width=1000)
+    st.markdown("Для итоговой реализации была выбрана модель, показавшая лучшее качество - StackingRegressor(Lasso, Catboost)")
+
+    st.markdown(
+        """
+        ##### Эксперименты с dl-моделями 
+
+        """
+    )
+    st.image('streamlit_demo/data/dl-models.jpg', width=1000)
+    st.markdown("Ни одна модификация сети не показала лучшего качества, чем классические ML-модели")
 
 def sidebar_input_features():
     atm_group = st.sidebar.selectbox("Банк", ("Rosbank", "AkBars", "Alfabank", "Gazprombank", "Raiffeisen", "Rosselkhozbank", "Uralsib"))
