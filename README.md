@@ -37,7 +37,7 @@ __Подробное описание продукта приведено на [
 - API сервиса предсказаний: http://94.139.242.35/docs
 - телеграм-бот: [ATM project bot (HSE)](https://t.me/atm_project_bot)
 - web-приложение: [прогнозирование популярности банкомата](http://94.139.242.35:9999/)
-- Streamlit-приложение: [streamlit-приложение](https://atm-project-streamlit.onrender.com)
+- Streamlit-приложение: [streamlit-приложение](https://atm-project-streamlit-ihyh.onrender.com)
 
 ## Состав команды
  - Алина Лукманова
